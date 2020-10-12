@@ -1,8 +1,39 @@
-﻿@page "/Articles/Details"
+﻿@page "/Articles/Details/{Id:int}"
 
 
-<h3>Component</h3>
+<h3>Details</h3>
+
+<div>
+    <div>
+        <a href="/Articles" class="btn btn-secondary">List</a>
+
+        <div>
+            <a href="/Articles/Details/Popup" id="copy-url" class="btn btn-secondary">초대</a>
+
+            <input type="button" class="btn btn-outline-primary btn-sm" value="Edit" />
+        </div>
+    </div>
+
+
+    <!-- Sharingbutton E-Mail -->
+    <a class="resp-sharing-button__link" href="mailto:?subject=Super%20fast%20and%20easy%20Social%20Media%20Sharing%20Buttons.%20No%20JavaScript.%20No%20tracking.&amp;" target="_self" rel="noopener" aria-label="Share by E-Mail">
+        <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button__icon--solid">
+            <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+            </div>Share by E-Mail
+        </div>
+    </a>
+
+</div>
+
+
+<input type="text" id="myInput" value="</Articles/Details/{Id}>">
+<input />
+
 
 @code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private CascadingPopup layerPopup { get; set; }
 
 }
