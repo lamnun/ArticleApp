@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArticleApp.Models", "ArticleApp.Models\ArticleApp.Models.csproj", "{4F1A7D1C-EA3E-4984-947D-FF7B42E06509}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArticleApp.Models", "ArticleApp.Models\ArticleApp.Models.csproj", "{4F1A7D1C-EA3E-4984-947D-FF7B42E06509}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ArticleApp.SqlServer", "ArticleApp.SqlServer\ArticleApp.SqlServer.sqlproj", "{98408B72-9DEC-4873-AB66-488EE8FBDBAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArticleApp.Models.Tests", "ArticleApp.Models.Tests\ArticleApp.Models.Tests.csproj", "{EA833049-E544-4D8C-8770-F60AC24503F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArticleApp.Models.Tests", "ArticleApp.Models.Tests\ArticleApp.Models.Tests.csproj", "{EA833049-E544-4D8C-8770-F60AC24503F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArticleApp", "ArticleApp\ArticleApp.csproj", "{82DB3B55-99B9-44C6-A7DA-1BAF05FFA62C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{EA833049-E544-4D8C-8770-F60AC24503F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA833049-E544-4D8C-8770-F60AC24503F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA833049-E544-4D8C-8770-F60AC24503F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82DB3B55-99B9-44C6-A7DA-1BAF05FFA62C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82DB3B55-99B9-44C6-A7DA-1BAF05FFA62C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82DB3B55-99B9-44C6-A7DA-1BAF05FFA62C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82DB3B55-99B9-44C6-A7DA-1BAF05FFA62C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

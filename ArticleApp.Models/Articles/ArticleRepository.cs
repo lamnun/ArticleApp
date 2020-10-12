@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ArticleApp.Models
 {
-    class ArticleRepository : IArticleRepository
+    public class ArticleRepository : IArticleRepository
     {
         public Task<Article> AddArticleAsync(Article article)
         {
