@@ -1,39 +1,48 @@
 ﻿@page "/Articles/Details/{Id:int}"
 
 
-<h3>Details</h3>
+@inject NavigationManager NavigationManager
+@inject IArticleRepository ArticleRepository
 
-<div>
-    <div>
+
+<h3>Details</h3>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="form-group">
+            <label for="id">ID</label>  @Model.Id
+        </div>
+        <div class="form-group">
+            <label for="id">Title</label>  @Model.Title
+        </div>
+        <div class="form-group">
+            <label for="id">Title</label>  @Model.Content
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Submit</button>
         <a href="/Articles" class="btn btn-secondary">List</a>
 
-        <div>
-            <a href="/Articles/Details/Popup" id="copy-url" class="btn btn-secondary">초대</a>
-
-            <input type="button" class="btn btn-outline-primary btn-sm" value="Edit" />
-        </div>
     </div>
-
-
-    <!-- Sharingbutton E-Mail -->
-    <a class="resp-sharing-button__link" href="mailto:?subject=Super%20fast%20and%20easy%20Social%20Media%20Sharing%20Buttons.%20No%20JavaScript.%20No%20tracking.&amp;" target="_self" rel="noopener" aria-label="Share by E-Mail">
-        <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button__icon--solid">
-            <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-            </div>Share by E-Mail
-        </div>
-    </a>
-
 </div>
 
 
-<input type="text" id="myInput" value="</Articles/Details/{Id}>">
-<input />
 
 
 @code {
+
     [Parameter]
     public int Id { get; set; }
 
-    private CascadingPopup layerPopup { get; set; }
+    public Article Model { get; set; } = new Article();
 
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await ArticleRepository.GetArticleByIdAsync(Id);
+    }
 }
+
+
+

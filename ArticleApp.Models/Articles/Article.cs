@@ -1,5 +1,6 @@
 ﻿using Dul.Domain.Common;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 
 namespace ArticleApp.Models
 {
@@ -13,9 +14,10 @@ namespace ArticleApp.Models
 
         //제목
         //[Required]
-        [Required(ErrorMessage = "제목을 입력하세요")]
         public string Title {get; set;}
 
-
+        //내용
+        [Required(ErrorMessage = "내용을 입력하세요")]
+        public string Content { get; set; }
     }
 }

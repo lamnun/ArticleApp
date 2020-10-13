@@ -4,8 +4,8 @@
 @inject IArticleRepository ArticleRepository
 
 <h3>Create</h3>
+<hr />
 
-<div class="container">
     <div class="row">
         <div class="col-md-12">
             <EditForm Model="Model" OnValidSubmit="btnSubmit_Click">
@@ -16,15 +16,25 @@
                     <InputText id="Title" class="form-control" placeholder="Enter Title" @bind-Value="@Model.Title"> </InputText>
                     <ValidationMessage For="@(() => Model.Title)" class="form-text text-muted"></ValidationMessage>
                 </div>
+
+                <div class="form-group">
+                    <label for="Content">Content</label>
+                    <InputTextArea id="Content" class="form-control" placeholder="Enter Content" @bind-Value="@Model.Content"> </InputTextArea>
+                    <ValidationMessage For="@(() => Model.Content)" class="form-text text-muted"></ValidationMessage>
+                </div>
+
+
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <a href="/Articles" class="btn btn-secondary">List</a>
             </EditForm>
         </div>
     </div>
-</div>
+
 
 @code {
     [Parameter]
+    public int Id { get; set; }
+
     public Article Model { get; set; } = new Article();
 
     protected async Task btnSubmit_Click()
@@ -33,6 +43,9 @@
         await ArticleRepository.AddArticleAsync(Model);
 
         //저장후 리스트페이지로 이동
-            NavigationManager.NavigateTo("/Articles");
+        NavigationManager.NavigateTo("/Articles");
     }
 }
+
+
+
