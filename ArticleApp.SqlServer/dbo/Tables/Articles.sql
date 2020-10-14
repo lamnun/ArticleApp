@@ -9,7 +9,7 @@ CREATE TABLE [dbo].[Articles]
 
 
 
-	-- [IsPinned] Bit Null Default(0),				-- 공지글로 올리기 
+	[IsPinned] Bit Null Default(0),				-- 공지글로 올리기 
 
 
 	-- AuditableBase.cs 참조

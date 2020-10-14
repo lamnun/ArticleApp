@@ -12,6 +12,17 @@
 
 <div>
     <a href="/Articles/Create" class="btn btn-primary">Create</a>
+    <AuthorizeView>
+        <Authorized>
+        </Authorized>
+        <NotAuthorized>
+            <a href="/Articles/Manage" class="btn btn-primary">Manage</a>
+        </NotAuthorized>
+    </AuthorizeView>
+    <AuthorizeView Roles="Administrators, Managers">
+        <a href="/Articles/Mange" class="btn btn-primary">Manage</a>
+    </AuthorizeView>
+   
 </div>
 <div>
 
@@ -23,12 +34,13 @@
 }
 else
 {
-    <table class="table talble-bordered table-hover">
+    <table class="table table-bordered table-hover">
         <thead class="thead-light">
             <tr>
                 <th>Id</th>
                 <th>Title</th>
                 <th>Time</th>
+                <th>&nbsp;</th>
                 <th>&nbsp;</th>
             </tr>
         </thead>
@@ -43,6 +55,7 @@ else
                         <a href="/Articles/Details/@article.Id" class="btn btn-dark">Details</a>
                         <a href="/Articles/Edit/@article.Id" class="btn btn-dark">Edit</a>
                         <a href="/Articles/Delete/@article.Id" class="btn btn-danger">Delete</a>
+                        <input type="button" value="플래이스 초대" class="btn btn-dark" @onclick="@(() => aPopup(article.Id))" />
 
                     </td>
 
@@ -54,40 +67,81 @@ else
 
 <ArticlePager Model="pager" PageIndexChanged="PageIndexChaged"> </ArticlePager>
 
-    @code {
-        private PagerBase pager = new PagerBase()
-        {
-            PageNumber = 1,
-            PageIndex = 0,
-            PageSize = 5,
-            PagerButtonCount = 5
-        };
+@if (isShow == true)
+{
+    <div class="modal fade show d-block" tabindex="-1" role="dialog" style="display: block;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">플래이스 초대</h6>
+                </div>
+                <div class="modal-body">
+                    <a href="https://www.addtoany.com/add_to/email?linkurl=https%3A%2F%2Fwww.naver.com;linkname=article.Id" target="_self"> <span class="hide-txt">메일</span></a>
+                    <a href="http://www.facebook.com/sharer/sharer.php?u=http://naver.com/" class="ico-sns sns-w-facebook" title="페이스북 공유하기"><span class="hide-txt">페이스북</span></a>
+                    <a href="https://twitter.com/intent/tweet?text=내용추가불라불라;url=http://naver.com/" class="ico-sns sns-w-twitter" title="트위터 공유하기"><span class="hide-txt">트위터</span></a>
+                    <a href="https://plus.google.com/share?url=http:http://naver.com/" class="ico-sns sns-w-google" title="구글플러스 공유하기"><span class="hide-txt">구글 플러스</span></a>
+                </div>
+                <div>
+                    <input type="text" name="name" value="/Articles/Index" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="btnClose_Click">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
-        private List<Article> articles;
+@code {
 
-        protected override async Task OnInitializedAsync()
-        {
-            //전체 출력
-            //페이지로드
-            // articles = await ArticleRepository.GetArticlesAsync();
+    private bool isShow = false;
 
-            // 페이징처리된 데이터만 출력
-            PagingResult<Article> pagingData = await ArticleRepository.GetAllAsync(pager.PageIndex, pager.PageSize);
-            pager.RecordCount = pagingData.TotalRecords; //총 레코드 수
-            articles = pagingData.Records.ToList(); // 페이징 처리된 레코드
-
-        }
-
-        //PagerButton 콜백 메서드
-        private async void PageIndexChaged(int pageIndex)
-        {
-            pager.PageIndex = pageIndex;
-            pager.PageNumber = pageIndex + 1;
-
-            var pagingData = await ArticleRepository.GetAllAsync(pager.PageIndex, pager.PageSize);
-            pager.RecordCount = pagingData.TotalRecords; //총 레코드 수
-            articles = pagingData.Records.ToList(); // 페이징 처리된 레코드
-
-            StateHasChanged();// 현재 컴포넌트 재로드
-        }
+    private void aPopup(int i)
+    {
+        isShow = true;
+        //JS.InvokeAsync<object>("alert", $"{article.Id}를 공지글로 설정 할까요?");
     }
+
+    private void btnClose_Click()
+    {
+        isShow = false; // 창닫기
+
+    }
+
+
+    private PagerBase pager = new PagerBase()
+    {
+        PageNumber = 1,
+        PageIndex = 0,
+        PageSize = 3,
+        PagerButtonCount = 3
+    };
+
+    private List<Article> articles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //전체 출력
+        //페이지로드
+        // articles = await ArticleRepository.GetArticlesAsync();
+
+        // 페이징처리된 데이터만 출력
+        PagingResult<Article> pagingData = await ArticleRepository.GetAllAsync(pager.PageIndex, pager.PageSize);
+        pager.RecordCount = pagingData.TotalRecords; //총 레코드 수
+        articles = pagingData.Records.ToList(); // 페이징 처리된 레코드
+
+    }
+
+    //PagerButton 콜백 메서드
+    private async void PageIndexChaged(int pageIndex)
+    {
+        pager.PageIndex = pageIndex;
+        pager.PageNumber = pageIndex + 1;
+
+        var pagingData = await ArticleRepository.GetAllAsync(pager.PageIndex, pager.PageSize);
+        pager.RecordCount = pagingData.TotalRecords; //총 레코드 수
+        articles = pagingData.Records.ToList(); // 페이징 처리된 레코드
+
+        StateHasChanged();// 현재 컴포넌트 재로드
+    }
+}
