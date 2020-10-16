@@ -5,8 +5,15 @@
 @using ArticleApp.Models
 @using Dul.Domain.Common
 @using ArticleApp.Pages.Articles.Components
+@using ArticleApp.Pages.Popup
+
+
+@using System.Windows;
 
 @inject IArticleRepository ArticleRepository
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@inject NavigationManager MyNavigationManager
 
 <h3>Index</h3>
 
@@ -22,7 +29,7 @@
     <AuthorizeView Roles="Administrators, Managers">
         <a href="/Articles/Mange" class="btn btn-primary">Manage</a>
     </AuthorizeView>
-   
+
 </div>
 <div>
 
@@ -55,58 +62,105 @@ else
                         <a href="/Articles/Details/@article.Id" class="btn btn-dark">Details</a>
                         <a href="/Articles/Edit/@article.Id" class="btn btn-dark">Edit</a>
                         <a href="/Articles/Delete/@article.Id" class="btn btn-danger">Delete</a>
-                        <input type="button" value="플래이스 초대" class="btn btn-dark" @onclick="@(() => aPopup(article.Id))" />
+                    </td>
+                    <td>
+                        <input type="button" value="초대" class="btn btn-dark" data-toggle="modal" data-target="#bInvitationDialog" @onclick="(() => InvitationBy(article.Id))" />
+
+                        <input type="button" value="초대" class="btn btn-dark" data-toggle="modal" data-target="#aInvitationDialog" @onclick="(() => InvitationBy(article.Id))" />
 
                     </td>
-
                 </tr>
             }
         </tbody>
     </table>
 }
 
+@*<ArticleApp.Pages.Popup.Invitation OnClick="btn_Click">
+        <Urll>@url</Urll>
+    </ArticleApp.Pages.Popup.Invitation>*@
+
 <ArticlePager Model="pager" PageIndexChanged="PageIndexChaged"> </ArticlePager>
 
-@if (isShow == true)
-{
-    <div class="modal fade show d-block" tabindex="-1" role="dialog" style="display: block;">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title">플래이스 초대</h6>
-                </div>
-                <div class="modal-body">
-                    <a href="https://www.addtoany.com/add_to/email?linkurl=https%3A%2F%2Fwww.naver.com;linkname=article.Id" target="_self"> <span class="hide-txt">메일</span></a>
-                    <a href="http://www.facebook.com/sharer/sharer.php?u=http://naver.com/" class="ico-sns sns-w-facebook" title="페이스북 공유하기"><span class="hide-txt">페이스북</span></a>
-                    <a href="https://twitter.com/intent/tweet?text=내용추가불라불라;url=http://naver.com/" class="ico-sns sns-w-twitter" title="트위터 공유하기"><span class="hide-txt">트위터</span></a>
-                    <a href="https://plus.google.com/share?url=http:http://naver.com/" class="ico-sns sns-w-google" title="구글플러스 공유하기"><span class="hide-txt">구글 플러스</span></a>
-                </div>
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="aInvitationDialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">플레이스 초대에에에</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
                 <div>
-                    <input type="text" name="name" value="/Articles/Index" />
+                    <a href="https://www.addtoany.com/add_to/email?linkurl=https%3A%2F%2Fwww.naver.com;linkname=article.Id" target="_blank"> <span class="hide-txt">메일</span></a>
+                    <a href="http://www.facebook.com/sharer/sharer.php?u=http://naver.com/" class="ico-sns sns-w-facebook" title="페이스북 공유하기" target="_blank"><span class="hide-txt">페이스북</span></a>
+                    <a href="https://twitter.com/intent/tweet?text=내용추가불라불라;url=http://naver.com/" class="ico-sns sns-w-twitter" title="트위터 공유하기" target="_parent"><span class="hide-txt">트위터</span></a>
+                    <a href="https://plus.google.com/share?url=http:http://naver.com/" class="ico-sns sns-w-google" title="구글플러스 공유하기" target="_blank"><span class="hide-txt">구글 플러스</span></a>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" @onclick="btnClose_Click">닫기</button>
+                <hr />
+                <div>
+                    <input type="text" name="name" value="@url" />
+                    <input type="button" value="복사" class="btn btn-outline-dark" @onclick="@CopyTextToClipboard" />
                 </div>
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" class="btn btn-primary" @onclick="OnClick">Yes</button>*@
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
-}
+</div>
+
+
 
 @code {
+    private void btn_Click()
+    {
+
+    }
+
+    private ElementReference _codeElement;
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+
 
     private bool isShow = false;
+    public string url { get; set; }
 
-    private void aPopup(int i)
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        isShow = true;
-        //JS.InvokeAsync<object>("alert", $"{article.Id}를 공지글로 설정 할까요?");
+        return base.OnAfterRenderAsync(firstRender);
     }
+
+
+    private void InvitationBy(int i)
+    {
+        url = $"{MyNavigationManager.Uri}/Index/{i}";
+
+    }
+
+    private async Task CopyTextToClipboard()
+    {
+
+        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", url);
+    }
+
 
     private void btnClose_Click()
     {
         isShow = false; // 창닫기
 
     }
+
+
+
+
 
 
     private PagerBase pager = new PagerBase()

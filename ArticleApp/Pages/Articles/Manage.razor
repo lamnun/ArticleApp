@@ -1,12 +1,13 @@
-﻿@page   "/Articles/Manage"
+﻿@page "/Articles/Manage"
 
 @using Dul.Web
 @using ArticleApp.Models
 @using Dul.Domain.Common
 @using ArticleApp.Pages.Articles.Components
+@using ArticleApp.Pages.Popup
 
 @inject IArticleRepository ArticleRepository
-@inject IJSRuntime JS
+@inject IJSRuntime JSRuntime
 
 <h3>Manage</h3>
 
@@ -32,6 +33,8 @@ else
                 <th>&nbsp;</th>
                 <th>isPinned</th>
                 <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
             </tr>
         </thead>
         <tbody>
@@ -50,7 +53,15 @@ else
                     <td>
                         <input type="button" value="공지글로 올리기" class="btn btn-dark" @onclick="@(() => PinnedBy(article))" />
                     </td>
+                    <td>
+                        <input type="button" value="Delete" class="btn btn-secondary" data-toggle="modal" data-target="#articleEditDialog"
+                               @onclick="(() => EditBy(article))" />
+                    </td>
 
+                    <td>
+                        <input type="button" value="Delete" class="btn btn-danger" data-toggle="modal" data-target="#articleDeleteDialog"
+                               @onclick="(() => DeleteBy(article))" />
+                    </td>
                 </tr>
             }
         </tbody>
@@ -58,6 +69,12 @@ else
 }
 
 <ArticlePager Model="pager" PageIndexChanged="PageIndexChaged"> </ArticlePager>
+
+<ArticleDeleteDialog OnClick="btnDelete_Click"></ArticleDeleteDialog>
+
+<ArticleEditorForm Model="@_article" SaveOrUpdated="SaveOrUpdated">
+    <EditorFormTitle>@editorFormTitle</EditorFormTitle>
+</ArticleEditorForm>
 
 @if (isShow == true)
 {
@@ -82,9 +99,45 @@ else
     </div>
 }
 @code {
+
+    private void SaveOrUpdated()
+    {
+
+    }
+
+    private async void btnDelete_Click()
+    {
+        await ArticleRepository.DeleteArticleAsync(_article.Id); //삭제
+        await JSRuntime.InvokeAsync<object>("closeModal", "articleDeleteDialog"); // _Host.cshtml
+        _article = new Article(); //선택
+
+        var pagingData = await ArticleRepository.GetAllAsync(pager.PageIndex, pager.PageSize);
+        pager.RecordCount = pagingData.TotalRecords;
+        articles = pagingData.Records.ToList();
+
+        StateHasChanged();
+
+    }
+
     private Article _article = new Article(); // 선택한 항목 관리
 
     private bool isShow = false;
+
+    private string editorFormTitle = "";
+
+    private void EditBy(Article article)
+    {
+        editorFormTitle = "수정하기";
+        _article = article;
+
+    }
+
+    private void DeleteBy(Article article)
+    {
+        _article = article;
+
+    }
+
 
     private void PinnedBy(Article article)
     {
@@ -109,7 +162,7 @@ else
         PagingResult<Article> pagingData = await ArticleRepository.GetAllAsync(pager.PageIndex, pager.PageSize);
         pager.RecordCount = pagingData.TotalRecords; //총 레코드 수
         articles = pagingData.Records.ToList(); // 페이징 처리된 레코드
-       
+
         isShow = false; // moal close
         StateHasChanged();
     }
