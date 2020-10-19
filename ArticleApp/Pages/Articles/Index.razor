@@ -5,7 +5,7 @@
 @using ArticleApp.Models
 @using Dul.Domain.Common
 @using ArticleApp.Pages.Articles.Components
-@using ArticleApp.Pages.Popup
+
 
 
 @using System.Windows;
@@ -64,10 +64,7 @@ else
                         <a href="/Articles/Delete/@article.Id" class="btn btn-danger">Delete</a>
                     </td>
                     <td>
-                        <input type="button" value="초대" class="btn btn-dark" data-toggle="modal" data-target="#bInvitationDialog" @onclick="(() => InvitationBy(article.Id))" />
-
                         <input type="button" value="초대" class="btn btn-dark" data-toggle="modal" data-target="#aInvitationDialog" @onclick="(() => InvitationBy(article.Id))" />
-
                     </td>
                 </tr>
             }
@@ -89,31 +86,52 @@ else
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">플레이스 초대에에에</h5>
+                <h5 class="modal-title">플레이스 초대</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div>
-                    <a href="https://www.addtoany.com/add_to/email?linkurl=https%3A%2F%2Fwww.naver.com;linkname=article.Id" target="_blank"> <span class="hide-txt">메일</span></a>
-                    <a href="http://www.facebook.com/sharer/sharer.php?u=http://naver.com/" class="ico-sns sns-w-facebook" title="페이스북 공유하기" target="_blank"><span class="hide-txt">페이스북</span></a>
-                    <a href="https://twitter.com/intent/tweet?text=내용추가불라불라;url=http://naver.com/" class="ico-sns sns-w-twitter" title="트위터 공유하기" target="_parent"><span class="hide-txt">트위터</span></a>
-                    <a href="https://plus.google.com/share?url=http:http://naver.com/" class="ico-sns sns-w-google" title="구글플러스 공유하기" target="_blank"><span class="hide-txt">구글 플러스</span></a>
-                </div>
+
+                @*<div>
+                        <a href="https://www.addtoany.com/add_to/email?linkurl=https%3A%2F%2Fwww.naver.com;linkname=article.Id" target="_blank"> <span class="hide-txt">메일</span></a>
+                        <a href="http://www.facebook.com/sharer/sharer.php?u=http://naver.com/" img src="https://tistory1.daumcdn.net/tistory/478768/skin/images/sns_tw.png" width="40" title="페이스북" target="_blank"><span class="hide-txt">페이스북</span></a>
+                        <a href="https://twitter.com/intent/tweet?text=내용추가불라불라;url=http://naver.com/" class="ico-sns sns-w-twitter" title="트위터 공유하기" target="_parent"><span class="hide-txt">트위터</span></a>
+                        <a href="https://plus.google.com/share?url=http:http://naver.com/" class="ico-sns sns-w-google" title="구글플러스 공유하기" target="_blank"><span class="hide-txt">구글플러스</span></a>
+                    </div>*@
+
+                @* 메일 *@
+                <a href="@GetUrl(1)">
+                    <img src="https://icon-icons.com/icons2/1154/PNG/96/1486564396-mail_81524.png" />
+                </a>
+                @* 페이스북 *@
+                <a href="@GetUrl(2)" target="_blank" onClick="window.open(this.href, '', 'resizable,height=450,width=650'); return false;">
+                    <img src="https://icon-icons.com/icons2/642/PNG/96/facebook_icon-icons.com_59205.png">
+                </a>
+                @* 트위터 *@
+                <a href="@GetUrl(3)" target="_blank" onClick="window.open(this.href, '', 'resizable,height=450,width=650'); return false;">
+                    <img src="https://icon-icons.com/icons2/1211/PNG/96/1491579542-yumminkysocialmedia22_83078.png">
+                </a>
+                @* 네이버 *@
+                <a href="@GetUrl(4)" target="_blank" onClick="window.open(this.href, '', 'resizable,height=400,width=500'); return false;">
+                    <img src="https://icon-icons.com/icons2/652/PNG/96/naver_icon-icons.com_59879.png">
+                </a>
+
                 <hr />
                 <div>
-                    <input type="text" name="name" value="@url" />
+                    <input type="text" value="@url" style="width:450px;height:40px;" />
                     <input type="button" value="복사" class="btn btn-outline-dark" @onclick="@CopyTextToClipboard" />
                 </div>
-            </div>
-            <div class="modal-footer">
-                @*<button type="button" class="btn btn-primary" @onclick="OnClick">Yes</button>*@
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                <div class="modal-footer">
+                    @*<button type="button" class="btn btn-primary" @onclick="OnClick">Yes</button>*@
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 
 
@@ -130,6 +148,7 @@ else
 
 
     private bool isShow = false;
+
     public string url { get; set; }
 
 
@@ -156,6 +175,44 @@ else
     {
         isShow = false; // 창닫기
 
+    }
+
+    private string GetUrl(int i)
+    {
+        string result = string.Empty;
+        switch (i)
+        {
+            case 1: //메일
+                result = "mailto:?&Subject=플레이스에%20초대합니다&body=" + url;
+                break;
+            case 2: //페이스북
+                    //result = "http://www.facebook.com/sharer/sharer.php?u=" + url;
+                result = "http://www.facebook.com/sharer/sharer.php?u=https://localhost:44310/";
+
+                break;
+            case 3: //트위터
+                result = "https://twitter.com/intent/tweet?text=플레이스에%20초대합니다" + "\n" + url;
+                break;
+            case 4: //네이버
+                result = "http://blog.naver.com/openapi/share?url=" + url;
+                break;
+            case 5: //
+                result = "";
+                break;
+        }
+        return result;
+    }
+
+    private string GetUrlPop(int i)
+    {
+        string result = string.Empty;
+        switch (i)
+        {
+            case 1:
+                result = "window.open(this.href, '', 'resizable,height=260,width=370')";
+                break;
+        }
+        return result;
     }
 
 
