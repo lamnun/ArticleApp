@@ -92,39 +92,36 @@ else
                 </button>
             </div>
             <div class="modal-body">
-
-                @*<div>
-                        <a href="https://www.addtoany.com/add_to/email?linkurl=https%3A%2F%2Fwww.naver.com;linkname=article.Id" target="_blank"> <span class="hide-txt">메일</span></a>
-                        <a href="http://www.facebook.com/sharer/sharer.php?u=http://naver.com/" img src="https://tistory1.daumcdn.net/tistory/478768/skin/images/sns_tw.png" width="40" title="페이스북" target="_blank"><span class="hide-txt">페이스북</span></a>
-                        <a href="https://twitter.com/intent/tweet?text=내용추가불라불라;url=http://naver.com/" class="ico-sns sns-w-twitter" title="트위터 공유하기" target="_parent"><span class="hide-txt">트위터</span></a>
-                        <a href="https://plus.google.com/share?url=http:http://naver.com/" class="ico-sns sns-w-google" title="구글플러스 공유하기" target="_blank"><span class="hide-txt">구글플러스</span></a>
-                    </div>*@
-
                 @* 메일 *@
                 <a href="@GetUrl(1)">
-                    <img src="https://icon-icons.com/icons2/1154/PNG/96/1486564396-mail_81524.png" />
+                    <img src="https://icon-icons.com/icons2/1195/PNG/64/1490889681-email_82528.png" />
                 </a>
                 @* 페이스북 *@
                 <a href="@GetUrl(2)" target="_blank" onClick="window.open(this.href, '', 'resizable,height=450,width=650'); return false;">
-                    <img src="https://icon-icons.com/icons2/642/PNG/96/facebook_icon-icons.com_59205.png">
+                    <img src="https://icon-icons.com/icons2/832/PNG/64/fb_icon-icons.com_66689.png">
                 </a>
                 @* 트위터 *@
                 <a href="@GetUrl(3)" target="_blank" onClick="window.open(this.href, '', 'resizable,height=450,width=650'); return false;">
-                    <img src="https://icon-icons.com/icons2/1211/PNG/96/1491579542-yumminkysocialmedia22_83078.png">
+                    <img src="https://icon-icons.com/icons2/832/PNG/64/twitter_icon-icons.com_66688.png">
                 </a>
                 @* 네이버 *@
                 <a href="@GetUrl(4)" target="_blank" onClick="window.open(this.href, '', 'resizable,height=400,width=500'); return false;">
-                    <img src="https://icon-icons.com/icons2/652/PNG/96/naver_icon-icons.com_59879.png">
+                    <img src="https://icon-icons.com/icons2/555/PNG/64/line_icon-icons.com_53599.png">
                 </a>
-
+                @* 카카오스토리 *@
+                <a href="@GetUrl(5)+encodeURIComponent(document.URL)" target="_blank" onClick="window.open(this.href, '', 'resizable,height=400,width=500'); return false;">
+                    <img src="https://icon-icons.com/icons2/555/PNG/64/talk_icon-icons.com_53596.png">
+                </a>
+                @* test *@
+                <a href="@GetUrl(6)+encodeURIComponent(document.URL)" target="_blank" onClick="window.open(this.href, '', 'resizable,height=400,width=500'); return false;">
+                    <img src="https://icon-icons.com/icons2/555/PNG/64/blackberry_mesenger_icon-icons.com_53591.png">
+                </a>
                 <hr />
-                <div>
-                    <input type="text" value="@url" style="width:450px;height:40px;" />
+                <div id="bar" class="style-scope yt-copy-link-renderer">
+                    <input id="share-url" value="@url" dir="ltr" readonly="" size="45" class="style-scope yt-copy-link-renderer">
                     <input type="button" value="복사" class="btn btn-outline-dark" @onclick="@CopyTextToClipboard" />
                 </div>
-
                 <div class="modal-footer">
-                    @*<button type="button" class="btn btn-primary" @onclick="OnClick">Yes</button>*@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
@@ -136,10 +133,10 @@ else
 
 
 @code {
-    private void btn_Click()
-    {
+        private void btn_Click()
+        {
 
-    }
+        }
 
     private ElementReference _codeElement;
 
@@ -160,7 +157,7 @@ else
 
     private void InvitationBy(int i)
     {
-        url = $"{MyNavigationManager.Uri}/Index/{i}";
+        url = $"{MyNavigationManager.Uri}/Edit/{i}";
 
     }
 
@@ -197,25 +194,14 @@ else
                 result = "http://blog.naver.com/openapi/share?url=" + url;
                 break;
             case 5: //
-                result = "";
+                result = "https://story.kakao.com/s/share?url=" + url;
+                break;
+            case 6: //
+                result = "https://story.kakao.com/s/share?url=https://tinyurl.com/yxax29qp";
                 break;
         }
         return result;
     }
-
-    private string GetUrlPop(int i)
-    {
-        string result = string.Empty;
-        switch (i)
-        {
-            case 1:
-                result = "window.open(this.href, '', 'resizable,height=260,width=370')";
-                break;
-        }
-        return result;
-    }
-
-
 
 
 

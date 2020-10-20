@@ -1,1 +1,79 @@
-﻿
+﻿<div class="modal fade" tabindex="-1" role="dialog" id="aInvitationDialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">플레이스 초대</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @* 메일 *@
+                <a href="@GetUrl(1)">
+                    <img src="https://icon-icons.com/icons2/1195/PNG/64/1490889681-email_82528.png" />
+                </a>
+                @* 페이스북 *@
+                <a href="@GetUrl(2)" target="_blank" onClick="window.open(this.href, '', 'resizable,height=450,width=650'); return false;">
+                    <img src="https://icon-icons.com/icons2/832/PNG/64/fb_icon-icons.com_66689.png">
+                </a>
+                @* 트위터 *@
+                <a href="@GetUrl(3)" target="_blank" onClick="window.open(this.href, '', 'resizable,height=450,width=650'); return false;">
+                    <img src="https://icon-icons.com/icons2/832/PNG/64/twitter_icon-icons.com_66688.png">
+                </a>
+                @* 네이버 *@
+                <a href="@GetUrl(4)" target="_blank" onClick="window.open(this.href, '', 'resizable,height=400,width=500'); return false;">
+                    <img src="https://icon-icons.com/icons2/555/PNG/64/line_icon-icons.com_53599.png">
+                </a>
+                @* 카카오스토리 *@
+                <a href="@GetUrl(5)+encodeURIComponent(document.URL)" target="_blank" onClick="window.open(this.href, '', 'resizable,height=400,width=500'); return false;">
+                    <img src="https://icon-icons.com/icons2/555/PNG/64/talk_icon-icons.com_53596.png">
+                </a>
+                @* test *@
+                <a href="@GetUrl(6)+encodeURIComponent(document.URL)" target="_blank" onClick="window.open(this.href, '', 'resizable,height=400,width=500'); return false;">
+                    <img src="https://icon-icons.com/icons2/555/PNG/64/blackberry_mesenger_icon-icons.com_53591.png">
+                </a>
+                <hr />
+                <div id="bar" class="style-scope yt-copy-link-renderer">
+                    <input id="share-url" value="@url" dir="ltr" readonly="" size="45" class="style-scope yt-copy-link-renderer">
+                    <input type="button" value="복사" class="btn btn-outline-dark" @onclick="@CopyTextToClipboard" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+
+    private string GetUrl(int i)
+    {
+        string result = string.Empty;
+        switch (i)
+        {
+            case 1: //메일
+                result = "mailto:?&Subject=플레이스에%20초대합니다&body=" + url;
+                break;
+            case 2: //페이스북
+                    //result = "http://www.facebook.com/sharer/sharer.php?u=" + url;
+                result = "http://www.facebook.com/sharer/sharer.php?u=https://localhost:44310/";
+
+                break;
+            case 3: //트위터
+                result = "https://twitter.com/intent/tweet?text=플레이스에%20초대합니다" + "\n" + url;
+                break;
+            case 4: //네이버
+                result = "http://blog.naver.com/openapi/share?url=" + url;
+                break;
+            case 5: //
+                result = "https://story.kakao.com/s/share?url=" + url;
+                break;
+            case 6: //
+                result = "https://story.kakao.com/s/share?url=https://tinyurl.com/yxax29qp";
+                break;
+        }
+        return result;
+    }
+}
