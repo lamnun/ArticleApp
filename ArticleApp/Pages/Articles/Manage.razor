@@ -60,17 +60,19 @@ else
 
                     <td>
                         <input type="button" value="Delete" class="btn btn-danger" data-toggle="modal" data-target="#articleDeleteDialog"
-                               @onclick="(() => DeleteBy(article))" />
+                               @onclick="(() => DeleteBy(article))"/>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+
 }
 
 <ArticlePager Model="pager" PageIndexChanged="PageIndexChaged"> </ArticlePager>
-
 <ArticleDeleteDialog OnClick="btnDelete_Click"></ArticleDeleteDialog>
+
+
 
 <ArticleEditorForm Model="@_article" SaveOrUpdated="SaveOrUpdated">
     <EditorFormTitle>@editorFormTitle</EditorFormTitle>
@@ -119,7 +121,7 @@ else
 
     }
 
-    private Article _article = new Article(); // 선택한 항목 관리
+    private Article _article = new Article(); // 선택한 항목 관리 /필드추가
 
     private bool isShow = false;
 

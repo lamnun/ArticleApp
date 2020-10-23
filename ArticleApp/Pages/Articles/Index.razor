@@ -21,11 +21,14 @@
     <a href="/Articles/Create" class="btn btn-primary">Create</a>
     <AuthorizeView>
         <Authorized>
+
         </Authorized>
         <NotAuthorized>
             <a href="/Articles/Manage" class="btn btn-primary">Manage</a>
+
         </NotAuthorized>
     </AuthorizeView>
+
     <AuthorizeView Roles="Administrators, Managers">
         <a href="/Articles/Mange" class="btn btn-primary">Manage</a>
     </AuthorizeView>
@@ -61,7 +64,11 @@ else
                     <td>
                         <a href="/Articles/Details/@article.Id" class="btn btn-dark">Details</a>
                         <a href="/Articles/Edit/@article.Id" class="btn btn-dark">Edit</a>
-                        <a href="/Articles/Delete/@article.Id" class="btn btn-danger">Delete</a>
+                        <a href="/Articles/Delete/@article.Id" class="btn btn-danger" >Delete</a>
+                        @*<a href="window.open(/Articles/Delete/@article.Id" class="btn btn-danger" target="_blank" onclick="this.href
+                            
+                            , '_blanck', 'width=600, height=400')">Delete</a>*@
+
                     </td>
                     <td>
                         <input type="button" value="초대" class="btn btn-dark" data-toggle="modal" data-target="#aInvitationDialog" @onclick="(() => InvitationBy(article.Id))" />
@@ -123,6 +130,8 @@ else
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="type" name="name" value="가나다라" />
+
                 </div>
             </div>
         </div>
